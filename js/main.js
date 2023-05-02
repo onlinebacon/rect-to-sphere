@@ -32,3 +32,30 @@ const addImage = async (src, config) => {
 		}
 	}
 };
+
+const inputs = Object.fromEntries([ ...document.querySelectorAll('input') ].map(
+	item => {
+		const id = item.getAttribute('id');
+		return [ id, item ];
+	}
+));
+
+const updateCanvasSize = () => {
+	canvas.height = Number(inputs.height.value);
+	canvas.width = canvas.height*2;
+};
+
+inputs.height.addEventListener('change', updateCanvasSize);
+
+inputs.add.addEventListener('click', () => {
+	inputs.file.click();
+});
+
+inputs.file.addEventListener('change', e => {
+	const [ file ] = inputs.file.files;
+	if (file == null) {
+		return;
+	}
+});
+
+updateCanvasSize();

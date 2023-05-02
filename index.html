@@ -1,13 +1,31 @@
 <html>
 	<head>
-		<style>
-			canvas {
-				background-color: #ccc;
-			}
-		</style>
+		<link rel="stylesheet" href="./css/style.css">
 		<script type="module" src="js/main.js"></script>
 	</head>
 	<body>
-		<canvas width="2048" height="1024"></canvas>
+		<div id="panel">
+			<div class="input">
+				<div class="input-title">Canvas height (px)</div>
+				<div class="input-content"><input type="text" id="height" value="256"></div>
+			</div>
+			<div class="input">
+				<div class="input-title">Image azimuth (deg)</div>
+				<div class="input-content"><input type="text" id="azm" value="0"></div>
+			</div>
+			<div class="input">
+				<div class="input-title">Image altitude (deg)</div>
+				<div class="input-content"><input type="text" id="alt" value="0"></div>
+			</div>
+			<div class="input">
+				<div class="input-title">Focal length (mm)</div>
+				<div class="input-content"><input type="text" id="fcl" value="50"></div>
+			</div>
+			<input type="button" value="Add image" id="add">
+			<input type="file" id="file" style="display:none">
+		</div>
+		<div id="canvas">
+			<canvas></canvas>
+		</div>
 	</body>
 </html>
