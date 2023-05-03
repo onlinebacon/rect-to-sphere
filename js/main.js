@@ -1,21 +1,22 @@
 import CameraMapper from './camera-mapper.js';
 import ColorPicker from './color-picker.js';
-import loadImage from './load-image.js';
 
 const canvas = document.querySelector('canvas');
-const { width, height } = canvas;
 const ctx = canvas.getContext('2d');
 
+const degToRad = (deg) => deg*(Math.PI/180);
+
 const canvasPosToAzmAlt = (x, y) => {
+	const { width, height } = canvas;
 	const azm = (x/width + 0.5)%1*Math.PI*2;
 	const alt = (0.5 - y/height)*Math.PI;
 	return [ azm, alt ];
 };
 
-const addImage = async (src, config) => {
-	const img = await loadImage(src);
+const addImage = async (img, config) => {
 	const colorPicker = new ColorPicker(img);
 	const mapper = new CameraMapper(config);
+	const { width, height } = canvas;
 	let it = 0;
 	for (let y=0; y<height; ++y) {
 		for (let x=0; x<width; ++x) {
@@ -56,6 +57,19 @@ inputs.file.addEventListener('change', e => {
 	if (file == null) {
 		return;
 	}
+	const r = new FileReader();
+	r.onload = () => {
+		const img = document.createElement('img');
+		img.onload = () => {
+			addImage(img, {
+				azm: degToRad(inputs.azm.value),
+				alt: degToRad(inputs.alt.value),
+				focalLength: Number(inputs.fcl.value),
+			});
+		};
+		img.src = r.result;
+	};
+	r.readAsDataURL(file);
 });
 
 updateCanvasSize();
